@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="3441" started-at="2020-07-02T16:17:40Z" finished-at="2020-07-02T16:17:43Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="3441" started-at="2020-07-02T16:17:40Z" finished-at="2020-07-02T16:17:43Z">
+      <class name="org.Rupeek.com.API.Testcase">
+        <test-method status="PASS" signature="verifyAuthenticationAndGetAuthToken()[pri:0, instance:org.Rupeek.com.API.Testcase@6a41eaa2]" name="verifyAuthenticationAndGetAuthToken" is-config="true" duration-ms="3278" started-at="2020-07-02T16:17:40Z" finished-at="2020-07-02T16:17:43Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyAuthenticationAndGetAuthToken -->
+        <test-method status="PASS" signature="getUserDetails()[pri:0, instance:org.Rupeek.com.API.Testcase@6a41eaa2]" name="getUserDetails" duration-ms="133" started-at="2020-07-02T16:17:43Z" finished-at="2020-07-02T16:17:43Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getUserDetails -->
+      </class> <!-- org.Rupeek.com.API.Testcase -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
