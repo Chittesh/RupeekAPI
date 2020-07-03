@@ -23,10 +23,5 @@ public class UserInfoBody {
 		obj.setpassword(password1);
 		return obj;
 	}
-	
-	public static String getBaseUrl() {
-		ResourceBundle userCreditinals = ResourceBundle.getBundle("urls");
-		return userCreditinals.getString("baseUrl");
-	}
 
 }

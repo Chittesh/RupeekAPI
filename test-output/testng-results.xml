@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+<testng-results skipped="0" failed="0" ignored="0" total="3" passed="3">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="3441" started-at="2020-07-02T16:17:40Z" finished-at="2020-07-02T16:17:43Z">
+  <suite name="Default suite" duration-ms="3236" started-at="2020-07-03T15:01:38Z" finished-at="2020-07-03T15:01:41Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="3441" started-at="2020-07-02T16:17:40Z" finished-at="2020-07-02T16:17:43Z">
-      <class name="org.Rupeek.com.API.Testcase">
-        <test-method status="PASS" signature="verifyAuthenticationAndGetAuthToken()[pri:0, instance:org.Rupeek.com.API.Testcase@6a41eaa2]" name="verifyAuthenticationAndGetAuthToken" is-config="true" duration-ms="3278" started-at="2020-07-02T16:17:40Z" finished-at="2020-07-02T16:17:43Z">
+    <test name="Default test" duration-ms="3236" started-at="2020-07-03T15:01:38Z" finished-at="2020-07-03T15:01:41Z">
+      <class name="org.Rupeek.com.API.TestCases">
+        <test-method status="PASS" signature="verifyAuthenticationAndGetAuthToken()[pri:0, instance:org.Rupeek.com.API.TestCases@4667ae56]" name="verifyAuthenticationAndGetAuthToken" is-config="true" duration-ms="3029" started-at="2020-07-03T15:01:38Z" finished-at="2020-07-03T15:01:41Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyAuthenticationAndGetAuthToken -->
-        <test-method status="PASS" signature="getUserDetails()[pri:0, instance:org.Rupeek.com.API.Testcase@6a41eaa2]" name="getUserDetails" duration-ms="133" started-at="2020-07-02T16:17:43Z" finished-at="2020-07-02T16:17:43Z">
+        <test-method status="PASS" signature="GetCustomerDeatils()[pri:0, instance:org.Rupeek.com.API.TestCases@4667ae56]" name="GetCustomerDeatils" is-config="true" duration-ms="122" started-at="2020-07-03T15:01:41Z" depends-on-methods="org.Rupeek.com.API.BasePage.verifyAuthenticationAndGetAuthToken" finished-at="2020-07-03T15:01:41Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- getUserDetails -->
-      </class> <!-- org.Rupeek.com.API.Testcase -->
+        </test-method> <!-- GetCustomerDeatils -->
+        <test-method status="PASS" signature="checkFirstNameLastNameAndCareerContainsOnlyAlphabets()[pri:0, instance:org.Rupeek.com.API.TestCases@4667ae56]" name="checkFirstNameLastNameAndCareerContainsOnlyAlphabets" duration-ms="8" started-at="2020-07-03T15:01:41Z" finished-at="2020-07-03T15:01:41Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- checkFirstNameLastNameAndCareerContainsOnlyAlphabets -->
+        <test-method status="PASS" signature="checkInValidCustomerDetails()[pri:0, instance:org.Rupeek.com.API.TestCases@4667ae56]" name="checkInValidCustomerDetails" duration-ms="3" started-at="2020-07-03T15:01:41Z" finished-at="2020-07-03T15:01:41Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- checkInValidCustomerDetails -->
+        <test-method status="PASS" signature="checkValidCustomerDetails()[pri:0, instance:org.Rupeek.com.API.TestCases@4667ae56]" name="checkValidCustomerDetails" duration-ms="7" started-at="2020-07-03T15:01:41Z" depends-on-methods="org.Rupeek.com.API.TestCases.checkFirstNameLastNameAndCareerContainsOnlyAlphabets" finished-at="2020-07-03T15:01:41Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- checkValidCustomerDetails -->
+      </class> <!-- org.Rupeek.com.API.TestCases -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
