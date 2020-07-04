@@ -15,12 +15,50 @@ public class UserInfoBody {
 	 */
 	public static UserInfo getUserInfoBody() {
 		ResourceBundle userCreditinals = ResourceBundle.getBundle("config");
-		String userName = userCreditinals.getString("userName");
-		byte[] decodedBytes = Base64.getDecoder().decode(userCreditinals.getString("password"));
-		String password1 = new String(decodedBytes);
+		String userName = userCreditinals.getString("UserName");
+		byte[] decodedBytes = Base64.getDecoder().decode(userCreditinals.getString("Password"));
+		String password = new String(decodedBytes);
 		UserInfo obj = new UserInfo();
 		obj.setusername(userName);
-		obj.setpassword(password1);
+		obj.setpassword(password);
+		return obj;
+	}
+
+	public static UserInfo getInvalidUserNameInfoBody() {
+		ResourceBundle userCreditinals = ResourceBundle.getBundle("config");
+		String userName = userCreditinals.getString("InvaildUserName");
+		byte[] decodedBytes = Base64.getDecoder().decode(userCreditinals.getString("Password"));
+		String password = new String(decodedBytes);
+		UserInfo obj = new UserInfo();
+		obj.setusername(userName);
+		obj.setpassword(password);
+		return obj;
+	}
+
+	public static UserInfo getInvalidPasswordInfoBody() {
+		ResourceBundle userCreditinals = ResourceBundle.getBundle("config");
+		String userName = userCreditinals.getString("UserName");
+		String password = userCreditinals.getString("InvalidPassword");
+		UserInfo obj = new UserInfo();
+		obj.setusername(userName);
+		obj.setpassword(password);
+		return obj;
+	}
+
+	public static UserInfo getInvalidUserNameAndPasswordInfoBody() {
+		ResourceBundle userCreditinals = ResourceBundle.getBundle("config");
+		String userName = userCreditinals.getString("InvaildUserName");
+		String password = userCreditinals.getString("InvalidPassword");
+		UserInfo obj = new UserInfo();
+		obj.setusername(userName);
+		obj.setpassword(password);
+		return obj;
+	}
+	
+	public static UserInfo getemptyUserNameAndPasswordInfoBody() {
+		UserInfo obj = new UserInfo();
+		obj.setusername("");
+		obj.setpassword("");
 		return obj;
 	}
 

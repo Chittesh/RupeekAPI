@@ -2,6 +2,8 @@ package org.Rupeek.com.API;
 
 import static io.restassured.RestAssured.given;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +31,8 @@ public class BasePage {
 		Response response = given().header(StaticData.contentHeader, StaticData.contentTypeJson)
 				.body(UserInfoBody.getUserInfoBody()).log().all().when().post(EnvironmentURLS.getAuthenticateUrl())
 				.then().extract().response();
-		Assert.assertEquals(response.getStatusCode(), 200, "Verify Status : " + response.getStatusCode());
+		Assert.assertEquals(response.getStatusCode(), StaticData.status_200,
+				"Verify Status : " + response.getStatusCode());
 		JsonPath jsonPath = new JsonPath(response.asString());
 		access_token = jsonPath.get("token");
 	}
@@ -40,6 +43,9 @@ public class BasePage {
 				.header(StaticData.authorizationHeader, StaticData.authorizationTypeBearer + access_token)
 				.header(StaticData.contentHeader, StaticData.contentTypeJson).when()
 				.get(EnvironmentURLS.getUserInfoUrl()).then().extract().response();
+		Assert.assertEquals(response.getStatusCode(), StaticData.status_200,
+				"Verify Status : " + response.getStatusCode());
+		Assert.assertEquals(response.contentType(), StaticData.contentTypeJson, "Verify content Type");
 		System.out.println(response.asString());
 
 		JSONParser parser = new JSONParser();
@@ -61,8 +67,28 @@ public class BasePage {
 		}
 
 	}
-	
-	
+
+	public void checkForOnlyAlphabets(ArrayList<String> listValues) {
+		HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
+		for (int i = 0; i < listValues.size(); i++) {
+			hm.put(listValues.get(i), isAlpha(listValues.get(i)));
+		}
+		for (Entry<String, Boolean> entry : hm.entrySet()) {
+			Assert.assertTrue(entry.getValue(), " Verify value " + entry.getKey() + " contains only Aplphabets");
+		}
+	}
+
+	public void checkForUnauthorizedError(UserInfo userInfo, int StatusCode) {
+		Response response = given().header(StaticData.contentHeader, StaticData.contentTypeJson).body(userInfo).log()
+				.all().when().post(EnvironmentURLS.getAuthenticateUrl()).then().extract().response();
+		Assert.assertEquals(response.getStatusCode(), StatusCode, "Verify Status : " + response);
+		Assert.assertTrue(response.asString().contains("error"), "Verify response contains error");
+		JsonPath jsonPath = new JsonPath(response.asString());
+		String error = jsonPath.get("error");
+		Assert.assertEquals(error, StaticData.unAuthorizedError, "Verify Unauthorized Error is present on Response");
+		Assert.assertEquals(response.contentType(), StaticData.contentTypeJson, "Verify content Type");
+	}
+
 	public boolean isAlpha(String name) {
 		String expression = "[a-zA-Z]+";
 		CharSequence inputStr = name.replaceAll(" ", "").trim();
@@ -74,7 +100,20 @@ public class BasePage {
 		} else {
 			status = false;
 		}
+		return ((!name.equals("")) && (name != null) && status);
+	}
 
+	public boolean isDigit(String name) {
+		String expression = "[0-9]+";
+		CharSequence inputStr = name.trim();
+		Pattern pattern = Pattern.compile(expression);
+		Matcher matcher = pattern.matcher(inputStr);
+		boolean status;
+		if (matcher.matches()) {
+			status = true;
+		} else {
+			status = false;
+		}
 		return ((!name.equals("")) && (name != null) && status);
 	}
 

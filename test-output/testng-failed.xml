@@ -5,9 +5,8 @@
     <classes>
       <class name="org.Rupeek.com.API.TestCases">
         <methods>
-          <include name="checkFirstNameLastNameAndCareerContainsOnlyAlphabets"/>
           <include name="verifyAuthenticationAndGetAuthToken"/>
-          <include name="checkValidCustomerDetails"/>
+          <include name="performGetRequestToFetchCustomerDeatilsWithInvalidToken"/>
           <include name="GetCustomerDeatils"/>
         </methods>
       </class> <!-- org.Rupeek.com.API.TestCases -->

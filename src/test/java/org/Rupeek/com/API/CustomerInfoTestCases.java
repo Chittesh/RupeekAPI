@@ -1,40 +1,73 @@
 package org.Rupeek.com.API;
 
-import java.util.ArrayList;
+import static io.restassured.RestAssured.given;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class TestCases extends BasePage {
+import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+
+public class CustomerInfoTestCases extends BasePage {
 
 	@BeforeTest(dependsOnMethods = "verifyAuthenticationAndGetAuthToken")
 	public void GetCustomerDeatils() {
 		getAllCustomerDeatils();
 	}
 
-	public void checkForOnlyAlphabets(ArrayList<String> listValues) {
-		HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
-		for (int i = 0; i < listValues.size(); i++) {
-			hm.put(listValues.get(i), isAlpha(listValues.get(i)));
-		}
-		for (Entry<String, Boolean> entry : hm.entrySet()) {
-			Assert.assertTrue(entry.getValue(), " Verify value " + entry.getKey() + " contains only Aplphabets");
-		}
+	@Test()
+	public void performGetRequestToFetchCustomerDeatilsWithInvalidToken() {
+		RestAssured.baseURI = EnvironmentURLS.getBaseUrl();
+		Response response = given()
+				.header(StaticData.authorizationHeader,
+						StaticData.authorizationTypeBearer + StaticData.invalidAuthorizationTypeBearer)
+				.header(StaticData.contentHeader, StaticData.contentTypeJson).when()
+				.get(EnvironmentURLS.getUserInfoUrl()).then().extract().response();
+		Assert.assertEquals(response.getStatusCode(), StaticData.status_401,
+				"Verify Status : " + response.getStatusCode());
+	}
+	
+	@Test()
+	public void performGetRequestToFetchCustomerDeatilsWithEmptyToken() {
+		RestAssured.baseURI = EnvironmentURLS.getBaseUrl();
+		Response response = given()
+				.header(StaticData.authorizationHeader,
+						StaticData.authorizationTypeBearer + "")
+				.header(StaticData.contentHeader, StaticData.contentTypeJson).when()
+				.get(EnvironmentURLS.getUserInfoUrl()).then().extract().response();
+		Assert.assertEquals(response.getStatusCode(), StaticData.status_401,
+				"Verify Status : " + response.getStatusCode());
+		Assert.assertTrue(response.asString().contains("error"), "Verify response contains error");
+		JsonPath jsonPath = new JsonPath(response.asString());
+		String error = jsonPath.get("error");
+		Assert.assertEquals(error, StaticData.unAuthorizedError, "Verify Unauthorized Error is present on Response");
 	}
 
+
 	@Test()
-	public void checkFirstNameLastNameAndCareerContainsOnlyAlphabets() {
+	public void verifyFirstNameLastNameAndCareerContainsOnlyAlphabets() {
 		checkForOnlyAlphabets(firstNameOfCustomers);
 		checkForOnlyAlphabets(lastNameOfCustomers);
 		checkForOnlyAlphabets(careerOfCustomers);
 	}
 
-	@Test(dependsOnMethods = "checkFirstNameLastNameAndCareerContainsOnlyAlphabets")
-	public void checkValidCustomerDetails() {
+	@Test()
+	public void verifyPhoneNumberConatinsOnlyDigits() {
+		HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
+		for (int i = 0; i < phoneNumberOfCustomers.size(); i++) {
+			hm.put(phoneNumberOfCustomers.get(i), isDigit(phoneNumberOfCustomers.get(i)));
+		}
+		for (Entry<String, Boolean> entry : hm.entrySet()) {
+			Assert.assertTrue(entry.getValue(), " Verify value " + entry.getKey() + " contains only digits");
+		}
+	}
+
+	@Test(dependsOnMethods = { "checkFirstNameLastNameAndCareerContainsOnlyAlphabets",
+			"checkPhoneNumberConatinsOnlyDigits" })
+	public void verifyValidCustomerDetails() {
 		String actualCustomerFirstName = "Aliko";
 		String actualCustomerLastName = "Dangote";
 		String actualCustomerName = actualCustomerFirstName + " " + actualCustomerLastName;
