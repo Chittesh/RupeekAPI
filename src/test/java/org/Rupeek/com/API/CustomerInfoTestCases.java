@@ -29,23 +29,20 @@ public class CustomerInfoTestCases extends BasePage {
 		Assert.assertEquals(response.getStatusCode(), StaticData.status_401,
 				"Verify Status : " + response.getStatusCode());
 	}
-	
+
 	@Test()
 	public void performGetRequestToFetchCustomerDeatilsWithEmptyToken() {
 		RestAssured.baseURI = EnvironmentURLS.getBaseUrl();
-		Response response = given()
-				.header(StaticData.authorizationHeader,
-						StaticData.authorizationTypeBearer + "")
+		Response response = given().header(StaticData.authorizationHeader, StaticData.authorizationTypeBearer + "")
 				.header(StaticData.contentHeader, StaticData.contentTypeJson).when()
 				.get(EnvironmentURLS.getUserInfoUrl()).then().extract().response();
 		Assert.assertEquals(response.getStatusCode(), StaticData.status_401,
 				"Verify Status : " + response.getStatusCode());
-		Assert.assertTrue(response.asString().contains("error"), "Verify response contains error");
+		Assert.assertTrue(response.asString().contains(StaticData.error), "Verify response contains error");
 		JsonPath jsonPath = new JsonPath(response.asString());
-		String error = jsonPath.get("error");
+		String error = jsonPath.get(StaticData.error);
 		Assert.assertEquals(error, StaticData.unAuthorizedError, "Verify Unauthorized Error is present on Response");
 	}
-
 
 	@Test()
 	public void verifyFirstNameLastNameAndCareerContainsOnlyAlphabets() {
@@ -65,43 +62,35 @@ public class CustomerInfoTestCases extends BasePage {
 		}
 	}
 
-	@Test(dependsOnMethods = { "checkFirstNameLastNameAndCareerContainsOnlyAlphabets",
-			"checkPhoneNumberConatinsOnlyDigits" })
+	@Test(dependsOnMethods = { "verifyFirstNameLastNameAndCareerContainsOnlyAlphabets",
+			"verifyPhoneNumberConatinsOnlyDigits" })
 	public void verifyValidCustomerDetails() {
-		String actualCustomerFirstName = "Aliko";
-		String actualCustomerLastName = "Dangote";
-		String actualCustomerName = actualCustomerFirstName + " " + actualCustomerLastName;
-		String actualCustomerCareer = "Billionaire Industrialist";
-		String actualCustomerPhone = "8037602400";
+		String actualCustomerName = StaticData.validFirstName + " " + StaticData.validLastName;
 		Assert.assertTrue(fullNameOfCustomers.contains(actualCustomerName),
 				" Verify " + actualCustomerName + " presence on the database");
-		Assert.assertTrue(firstNameOfCustomers.contains(actualCustomerFirstName),
-				" Verify " + actualCustomerFirstName + " presence on the database");
-		Assert.assertTrue(lastNameOfCustomers.contains(actualCustomerLastName),
-				" Verify " + actualCustomerLastName + " presence on the database");
-		Assert.assertTrue(careerOfCustomers.contains(actualCustomerCareer),
-				" Verify " + actualCustomerCareer + " presence on the database");
-		Assert.assertTrue(phoneNumberOfCustomers.contains(actualCustomerPhone),
-				" Verify " + actualCustomerPhone + " presence on the database");
+		Assert.assertTrue(firstNameOfCustomers.contains(StaticData.validFirstName),
+				" Verify " + StaticData.validFirstName + " presence on the database");
+		Assert.assertTrue(lastNameOfCustomers.contains(StaticData.validLastName),
+				" Verify " + StaticData.validLastName + " presence on the database");
+		Assert.assertTrue(careerOfCustomers.contains(StaticData.validCareer),
+				" Verify " + StaticData.validCareer + " presence on the database");
+		Assert.assertTrue(phoneNumberOfCustomers.contains(StaticData.validPhoneNumber),
+				" Verify " + StaticData.validPhoneNumber + " presence on the database");
 	}
 
 	@Test()
 	public void checkInValidCustomerDetails() {
-		String actualCustomerFirstName = "Chittesh";
-		String actualCustomerLastName = "Charles";
-		String actualCustomerName = actualCustomerFirstName + " " + actualCustomerLastName;
-		String actualCustomerCareer = "SDET";
-		String actualCustomerPhone = "9911223344";
+		String actualCustomerName = StaticData.inValidFirstName + " " + StaticData.inValidLastName;
 		Assert.assertFalse(fullNameOfCustomers.contains(actualCustomerName),
 				" Verify " + actualCustomerName + " presence on the database");
-		Assert.assertFalse(firstNameOfCustomers.contains(actualCustomerFirstName),
-				" Verify " + actualCustomerFirstName + " presence on the database");
-		Assert.assertFalse(lastNameOfCustomers.contains(actualCustomerLastName),
-				" Verify " + actualCustomerLastName + " presence on the database");
-		Assert.assertFalse(careerOfCustomers.contains(actualCustomerCareer),
-				" Verify " + actualCustomerCareer + " presence on the database");
-		Assert.assertFalse(phoneNumberOfCustomers.contains(actualCustomerPhone),
-				" Verify " + actualCustomerPhone + " presence on the database");
+		Assert.assertFalse(firstNameOfCustomers.contains(StaticData.inValidFirstName),
+				" Verify " + StaticData.inValidFirstName + " presence on the database");
+		Assert.assertFalse(lastNameOfCustomers.contains(StaticData.inValidLastName),
+				" Verify " + StaticData.inValidLastName + " presence on the database");
+		Assert.assertFalse(careerOfCustomers.contains(StaticData.inValidCareer),
+				" Verify " + StaticData.inValidCareer + " presence on the database");
+		Assert.assertFalse(phoneNumberOfCustomers.contains(StaticData.inValidPhoneNumber),
+				" Verify " + StaticData.inValidPhoneNumber + " presence on the database");
 	}
 
 }

@@ -3,13 +3,12 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="org.Rupeek.com.API.TestCases">
+      <class name="org.Rupeek.com.API.GetCustomerInfoByPhoneTestCases">
         <methods>
           <include name="verifyAuthenticationAndGetAuthToken"/>
-          <include name="performGetRequestToFetchCustomerDeatilsWithInvalidToken"/>
-          <include name="GetCustomerDeatils"/>
+          <include name="verifyValidCustomerDetailsBasedOnValidPhoneNumber"/>
         </methods>
-      </class> <!-- org.Rupeek.com.API.TestCases -->
+      </class> <!-- org.Rupeek.com.API.GetCustomerInfoByPhoneTestCases -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

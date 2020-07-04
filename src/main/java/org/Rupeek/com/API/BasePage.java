@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import io.restassured.RestAssured;
@@ -17,6 +16,12 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * @author chicharles
+ * @Description : This class contains common method and Test methods which can
+ *              be reused across all project workspace
+ *
+ */
 public class BasePage {
 	static String access_token;
 	static ArrayList<String> fullNameOfCustomers = new ArrayList<String>();;
@@ -25,6 +30,12 @@ public class BasePage {
 	static ArrayList<String> careerOfCustomers = new ArrayList<String>();;
 	static ArrayList<String> phoneNumberOfCustomers = new ArrayList<String>();;
 
+	/**
+	 * @Description : Method to get Auth Bearer Token
+	 * @param : NA
+	 * @return : void
+	 * @Date : 7/4/2020
+	 */
 	@BeforeTest()
 	public void verifyAuthenticationAndGetAuthToken() {
 		RestAssured.baseURI = EnvironmentURLS.getBaseUrl();
@@ -37,6 +48,12 @@ public class BasePage {
 		access_token = jsonPath.get("token");
 	}
 
+	/**
+	 * @Description : Method to get All Customer Details
+	 * @param : NA
+	 * @return : void
+	 * @Date : 7/4/2020
+	 */
 	public void getAllCustomerDeatils() {
 		RestAssured.baseURI = EnvironmentURLS.getBaseUrl();
 		Response response = given()
@@ -65,9 +82,36 @@ public class BasePage {
 			careerOfCustomers.add(objects.getString("career"));
 			phoneNumberOfCustomers.add(objects.getString("phone"));
 		}
+	}
+	
+	
+	public Object getAllCustomerDeatilsBasedOnPhoneNumber(String phoneNumber) {
+		RestAssured.baseURI = EnvironmentURLS.getBaseUrl();
+		Response response = given()
+				.header(StaticData.authorizationHeader, StaticData.authorizationTypeBearer + access_token)
+				.header(StaticData.contentHeader, StaticData.contentTypeJson).when()
+				.get(EnvironmentURLS.getUserInfoUrl()+"/"+phoneNumber).then().extract().response();
+		Assert.assertEquals(response.getStatusCode(), StaticData.status_200,
+				"Verify Status : " + response.getStatusCode());
+		Assert.assertEquals(response.contentType(), StaticData.contentTypeJson, "Verify content Type");
+		System.out.println(response.asString());
 
+		JSONParser parser = new JSONParser();
+		Object obj = null;
+		try {
+			obj = parser.parse(response.asString());
+		} catch (ParseException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+		return obj;
 	}
 
+	/**
+	 * @Description : Method to Check if the array list contains only alphabets
+	 * @param : listValues
+	 * @return : void
+	 * @Date : 7/4/2020
+	 */
 	public void checkForOnlyAlphabets(ArrayList<String> listValues) {
 		HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
 		for (int i = 0; i < listValues.size(); i++) {
@@ -78,6 +122,12 @@ public class BasePage {
 		}
 	}
 
+	/**
+	 * @Description : Method to Check if response has Unauthorized Error
+	 * @param : userInfo, StatusCode
+	 * @return : void
+	 * @Date : 7/4/2020
+	 */
 	public void checkForUnauthorizedError(UserInfo userInfo, int StatusCode) {
 		Response response = given().header(StaticData.contentHeader, StaticData.contentTypeJson).body(userInfo).log()
 				.all().when().post(EnvironmentURLS.getAuthenticateUrl()).then().extract().response();
@@ -89,6 +139,12 @@ public class BasePage {
 		Assert.assertEquals(response.contentType(), StaticData.contentTypeJson, "Verify content Type");
 	}
 
+	/**
+	 * @Description : Method to Check if passed String contains only alphabets
+	 * @param : name
+	 * @return : boolean
+	 * @Date : 7/4/2020
+	 */
 	public boolean isAlpha(String name) {
 		String expression = "[a-zA-Z]+";
 		CharSequence inputStr = name.replaceAll(" ", "").trim();
@@ -103,6 +159,12 @@ public class BasePage {
 		return ((!name.equals("")) && (name != null) && status);
 	}
 
+	/**
+	 * @Description : Method to Check if passed String contains only Digits
+	 * @param : name
+	 * @return : boolean
+	 * @Date : 7/4/2020
+	 */
 	public boolean isDigit(String name) {
 		String expression = "[0-9]+";
 		CharSequence inputStr = name.trim();

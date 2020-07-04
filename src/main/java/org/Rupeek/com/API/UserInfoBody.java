@@ -5,13 +5,16 @@ import java.util.ResourceBundle;
 
 /**
  * @author chicharles
+ * @Description : class to get user credentials
  *
  */
 public class UserInfoBody {
 
 	/**
-	 * @Desciprion : method to get Json Object reference
-	 * @return
+	 * @Description : Method to create valid Json Body with valid credentials
+	 * @param : NA
+	 * @return : UserInfo
+	 * @Date : 7/4/2020
 	 */
 	public static UserInfo getUserInfoBody() {
 		ResourceBundle userCreditinals = ResourceBundle.getBundle("config");
@@ -24,6 +27,13 @@ public class UserInfoBody {
 		return obj;
 	}
 
+	/**
+	 * @Description : Method to create valid Json Body with valid password and
+	 *              Invalid user name
+	 * @param : NA
+	 * @return : UserInfo
+	 * @Date : 7/4/2020
+	 */
 	public static UserInfo getInvalidUserNameInfoBody() {
 		ResourceBundle userCreditinals = ResourceBundle.getBundle("config");
 		String userName = userCreditinals.getString("InvaildUserName");
@@ -35,6 +45,13 @@ public class UserInfoBody {
 		return obj;
 	}
 
+	/**
+	 * @Description : Method to create valid Json Body with invalid password and
+	 *              valid user name
+	 * @param : NA
+	 * @return : UserInfo
+	 * @Date : 7/4/2020
+	 */
 	public static UserInfo getInvalidPasswordInfoBody() {
 		ResourceBundle userCreditinals = ResourceBundle.getBundle("config");
 		String userName = userCreditinals.getString("UserName");
@@ -45,6 +62,13 @@ public class UserInfoBody {
 		return obj;
 	}
 
+	/**
+	 * @Description : Method to create valid Json Body with invalid password and
+	 *              invalid user name
+	 * @param : NA
+	 * @return : UserInfo
+	 * @Date : 7/4/2020
+	 */
 	public static UserInfo getInvalidUserNameAndPasswordInfoBody() {
 		ResourceBundle userCreditinals = ResourceBundle.getBundle("config");
 		String userName = userCreditinals.getString("InvaildUserName");
@@ -54,7 +78,14 @@ public class UserInfoBody {
 		obj.setpassword(password);
 		return obj;
 	}
-	
+
+	/**
+	 * @Description : Method to create valid Json Body with empty password and empty
+	 *              user name
+	 * @param : NA
+	 * @return : UserInfo
+	 * @Date : 7/4/2020
+	 */
 	public static UserInfo getemptyUserNameAndPasswordInfoBody() {
 		UserInfo obj = new UserInfo();
 		obj.setusername("");

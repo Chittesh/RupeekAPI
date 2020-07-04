@@ -2,7 +2,7 @@ package org.Rupeek.com.API;
 
 /**
  * @author chicharles
- * @description : class to generate user info Json
+ * @Description : class to generate user info /authenticate API Json body
  *
  */
 public class UserInfo {
